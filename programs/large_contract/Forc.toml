@@ -6,3 +6,6 @@ name = "large_contract"
 
 [dependencies]
 large_contract_interface = { path = "../large_contract_interface" }
+
+[proxy]
+enabled = true
