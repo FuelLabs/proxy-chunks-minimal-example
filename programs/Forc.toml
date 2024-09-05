@@ -1,2 +1,2 @@
 [workspace]
-members = ["large_contract", "large_contract_interface"]
+members = ["large_contract"]
