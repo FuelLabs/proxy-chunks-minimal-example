@@ -1,12 +1,4 @@
 [[package]]
-name = "call_proxy"
-source = "member"
-dependencies = [
-    "large_contract_interface",
-    "std",
-]
-
-[[package]]
 name = "core"
 source = "path+from-root-EF1196EF955CE54B"
 
