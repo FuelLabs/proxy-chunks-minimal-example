@@ -198,6 +198,18 @@ Compiling contract large_contract (/Users/calldelegation/Projects/Fuel/proxy-chu
 Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 ```
 
+## Putting It All Together (Chunking + Proxies)
+
+#### Chunking 
+
+![](assets/sway_chunks.mp4)
+
+#### Chunking with Proxies
+
+![](assets/sway_chunks_with_proxy.mp4)
+
+####
+
 ## Appendix
 
 #### Proxy
