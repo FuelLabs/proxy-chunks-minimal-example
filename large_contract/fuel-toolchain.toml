@@ -1,0 +1,6 @@
+[toolchain]
+channel = "nightly-2024-09-04"
+
+[components]
+forc = "0.63.3"
+fuel-core = "0.34.0"
