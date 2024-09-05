@@ -20,6 +20,9 @@ struct Args {
     /// Proxy `ContractId`
     #[arg(long, required = true)]
     proxy_contract_id: String,
+    /// Target `ContractId`
+    #[arg(long, required = true)]
+    target_contract_id: String,
 }
 
 abigen!(Contract(
@@ -41,9 +44,14 @@ async fn main() {
 
     let contract_instance = LargeTargetContract::new(proxy_contract_id, signing_wallet);
 
+    let target_contract_id: Bech32ContractId = ContractId::from_str(&args.target_contract_id)
+        .unwrap()
+        .into();
+
     let response = contract_instance
         .methods()
         .get_configurable_bool()
+        .with_contract_ids(&[target_contract_id])
         .call()
         .await
         .unwrap();

@@ -4,6 +4,9 @@ use std::storage::storage_vec::*;
 use std::hash::*;
 use large_contract_interface::*;
 
+// This is changed during the upgrade.
+const BOOL: bool = true;
+
 storage {
     my_vec: StorageVec<u16> = StorageVec {},
     my_simple_vec: StorageVec<SimpleStruct> = StorageVec {},
@@ -11,7 +14,6 @@ storage {
 }
 
 configurable {
-    BOOL: bool = true,
     U8: u8 = 1,
     U16: u16 = 2,
     U32: u32 = 3,
