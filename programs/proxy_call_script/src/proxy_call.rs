@@ -5,7 +5,7 @@ use fuels::{
     accounts::{provider::Provider, wallet::WalletUnlocked},
     crypto::SecretKey,
     macros::abigen,
-    types::bech32::Bech32ContractId,
+    types::{bech32::Bech32ContractId, ContractId},
 };
 
 #[derive(Parser, Debug)]
@@ -35,7 +35,9 @@ async fn main() {
 
     let signing_wallet = setup_signing_wallet(&args.provider_url, &args.signing_key).await;
 
-    let proxy_contract_id = Bech32ContractId::from_str(&args.proxy_contract_id).unwrap();
+    let proxy_contract_id: Bech32ContractId = ContractId::from_str(&args.proxy_contract_id)
+        .unwrap()
+        .into();
 
     let contract_instance = LargeTargetContract::new(proxy_contract_id, signing_wallet);
 
