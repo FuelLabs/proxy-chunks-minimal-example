@@ -1,0 +1,15 @@
+[package]
+name = "proxy_call_script"
+version = "0.0.0"
+authors = ["Fuel Labs <contact@fuel.sh>"]
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+clap = { version = "4.5.17", features = ["env", "derive"] }
+fuels = { version = "0.66.3" }
+tokio = { version = "1.39.3", features = ["rt", "macros"] }
+
+[[bin]]
+name = "proxy_call"
+path = "src/proxy_call.rs"
