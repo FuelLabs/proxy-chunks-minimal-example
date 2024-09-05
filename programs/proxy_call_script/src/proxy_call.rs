@@ -26,8 +26,8 @@ struct Args {
 }
 
 abigen!(Contract(
-    name = "LargeTargetContract",
-    abi = "../large_contract/out/release/large_contract-abi.json"
+    name = "SimpleTargetContract",
+    abi = "../simple_contract/out/release/simple_contract-abi.json"
 ));
 
 #[tokio::main]
@@ -42,7 +42,7 @@ async fn main() {
         .unwrap()
         .into();
 
-    let contract_instance = LargeTargetContract::new(proxy_contract_id, signing_wallet);
+    let contract_instance = SimpleTargetContract::new(proxy_contract_id, signing_wallet);
 
     let target_contract_id: Bech32ContractId = ContractId::from_str(&args.target_contract_id)
         .unwrap()
@@ -50,7 +50,7 @@ async fn main() {
 
     let response = contract_instance
         .methods()
-        .get_configurable_bool()
+        .get_u8()
         .with_contract_ids(&[target_contract_id])
         .call()
         .await
