@@ -18,13 +18,13 @@
       "metadataTypeId": 5
     },
     {
-      "type": "[enum Location; 2]",
-      "concreteTypeId": "fb7957f865b6c8ee87b25381a2861c279107dc2fff0e6bd25586198dc65470d0",
+      "type": "[enum large_contract_interface::Location; 2]",
+      "concreteTypeId": "037733121e471603945903a1fb79c25b58b227c384cbd20623e3f85536deaca1",
       "metadataTypeId": 1
     },
     {
-      "type": "[struct SimpleStruct; 3]",
-      "concreteTypeId": "96dffad5a46b9db38f00f4431235e7e9bab7a85e8ee9a514aa81063d429ceb7a",
+      "type": "[struct large_contract_interface::SimpleStruct; 3]",
+      "concreteTypeId": "80af9108f5afe63c12ffd51e3838c63c8fbf69411d0c64bec4e89f3e0c04b500",
       "metadataTypeId": 7
     },
     {
@@ -41,8 +41,8 @@
       "concreteTypeId": "b760f44fa5965c2474a3b471467a22c43185152129295af588b022ae50b50903"
     },
     {
-      "type": "enum Location",
-      "concreteTypeId": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb",
+      "type": "enum large_contract_interface::Location",
+      "concreteTypeId": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26",
       "metadataTypeId": 9
     },
     {
@@ -50,13 +50,13 @@
       "concreteTypeId": "94f0fa95c830be5e4f711963e83259fe7e8bc723278ab6ec34449e791a99b53a"
     },
     {
-      "type": "struct Person",
-      "concreteTypeId": "a6b272bcf0f572840e2cc1241bdcf8d42db51eeb1aead750c8e608160f83f926",
+      "type": "struct large_contract_interface::Person",
+      "concreteTypeId": "07c5f0752c2f344bb9d63df14396e81506aaa63f88c59c8a61201db039b12b41",
       "metadataTypeId": 11
     },
     {
-      "type": "struct SimpleStruct",
-      "concreteTypeId": "75f7f7a06026cab5d7a70984d1fde56001e83505e3a091ff9722b92d7f56d8be",
+      "type": "struct large_contract_interface::SimpleStruct",
+      "concreteTypeId": "bad46f68fbd6f5bad8a60f7dcefae76c88c1d86a37a18ef62f05d8118de4608e",
       "metadataTypeId": 12
     },
     {
@@ -166,7 +166,7 @@
       ]
     },
     {
-      "type": "enum Color",
+      "type": "enum large_contract_interface::Color",
       "metadataTypeId": 8,
       "components": [
         {
@@ -180,7 +180,7 @@
       ]
     },
     {
-      "type": "enum Location",
+      "type": "enum large_contract_interface::Location",
       "metadataTypeId": 9,
       "components": [
         {
@@ -214,7 +214,7 @@
       "metadataTypeId": 10
     },
     {
-      "type": "struct Person",
+      "type": "struct large_contract_interface::Person",
       "metadataTypeId": 11,
       "components": [
         {
@@ -248,7 +248,7 @@
       ]
     },
     {
-      "type": "struct SimpleStruct",
+      "type": "struct large_contract_interface::SimpleStruct",
       "metadataTypeId": 12,
       "components": [
         {
@@ -267,11 +267,11 @@
       "inputs": [
         {
           "name": "aoe",
-          "concreteTypeId": "fb7957f865b6c8ee87b25381a2861c279107dc2fff0e6bd25586198dc65470d0"
+          "concreteTypeId": "037733121e471603945903a1fb79c25b58b227c384cbd20623e3f85536deaca1"
         }
       ],
       "name": "array_of_enum_input_output",
-      "output": "fb7957f865b6c8ee87b25381a2861c279107dc2fff0e6bd25586198dc65470d0",
+      "output": "037733121e471603945903a1fb79c25b58b227c384cbd20623e3f85536deaca1",
       "attributes": null
     },
     {
@@ -284,11 +284,11 @@
       "inputs": [
         {
           "name": "loc",
-          "concreteTypeId": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb"
+          "concreteTypeId": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26"
         }
       ],
       "name": "enum_input_output",
-      "output": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb",
+      "output": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26",
       "attributes": null
     },
     {
@@ -305,7 +305,7 @@
         }
       ],
       "name": "get_storage_location",
-      "output": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb",
+      "output": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26",
       "attributes": [
         {
           "name": "storage",
@@ -323,7 +323,7 @@
         }
       ],
       "name": "get_storage_simple",
-      "output": "75f7f7a06026cab5d7a70984d1fde56001e83505e3a091ff9722b92d7f56d8be",
+      "output": "bad46f68fbd6f5bad8a60f7dcefae76c88c1d86a37a18ef62f05d8118de4608e",
       "attributes": [
         {
           "name": "storage",
@@ -361,7 +361,7 @@
       "inputs": [
         {
           "name": "value",
-          "concreteTypeId": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb"
+          "concreteTypeId": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26"
         }
       ],
       "name": "push_storage_location",
@@ -380,7 +380,7 @@
       "inputs": [
         {
           "name": "value",
-          "concreteTypeId": "75f7f7a06026cab5d7a70984d1fde56001e83505e3a091ff9722b92d7f56d8be"
+          "concreteTypeId": "bad46f68fbd6f5bad8a60f7dcefae76c88c1d86a37a18ef62f05d8118de4608e"
         }
       ],
       "name": "push_storage_simple",
@@ -418,11 +418,11 @@
       "inputs": [
         {
           "name": "person",
-          "concreteTypeId": "a6b272bcf0f572840e2cc1241bdcf8d42db51eeb1aead750c8e608160f83f926"
+          "concreteTypeId": "07c5f0752c2f344bb9d63df14396e81506aaa63f88c59c8a61201db039b12b41"
         }
       ],
       "name": "struct_input_output",
-      "output": "a6b272bcf0f572840e2cc1241bdcf8d42db51eeb1aead750c8e608160f83f926",
+      "output": "07c5f0752c2f344bb9d63df14396e81506aaa63f88c59c8a61201db039b12b41",
       "attributes": null
     }
   ],
@@ -466,12 +466,12 @@
     },
     {
       "name": "CONFIGURABLE_STRUCT",
-      "concreteTypeId": "75f7f7a06026cab5d7a70984d1fde56001e83505e3a091ff9722b92d7f56d8be",
+      "concreteTypeId": "bad46f68fbd6f5bad8a60f7dcefae76c88c1d86a37a18ef62f05d8118de4608e",
       "offset": 393408
     },
     {
       "name": "CONFIGURABLE_ENUM",
-      "concreteTypeId": "6966f221767e2951c5d68ba5e81e897449375a9f51f5e4c9e3b65f1dd7defabb",
+      "concreteTypeId": "771f399c23f75af5389cde103aaff23fcc4a924cd7963187acb340e71105cd26",
       "offset": 393368
     },
     {
@@ -486,12 +486,12 @@
     },
     {
       "name": "ARRAY_LOCATION",
-      "concreteTypeId": "fb7957f865b6c8ee87b25381a2861c279107dc2fff0e6bd25586198dc65470d0",
+      "concreteTypeId": "037733121e471603945903a1fb79c25b58b227c384cbd20623e3f85536deaca1",
       "offset": 393192
     },
     {
       "name": "ARRAY_SIMPLE_STRUCT",
-      "concreteTypeId": "96dffad5a46b9db38f00f4431235e7e9bab7a85e8ee9a514aa81063d429ceb7a",
+      "concreteTypeId": "80af9108f5afe63c12ffd51e3838c63c8fbf69411d0c64bec4e89f3e0c04b500",
       "offset": 393272
     },
     {

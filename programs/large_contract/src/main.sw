@@ -2,67 +2,7 @@ contract;
 
 use std::storage::storage_vec::*;
 use std::hash::*;
-
-abi MyContract {
-    fn large_blob() -> bool;
-
-    fn enum_input_output(loc: Location) -> Location;
-
-    fn struct_input_output(person: Person) -> Person;
-
-    fn array_of_enum_input_output(aoe: [Location; 2]) -> [Location; 2];
-
-    #[storage(read, write)]
-    fn push_storage_u16(value: u16);
-
-    #[storage(read)]
-    fn get_storage_u16(index: u64) -> u16;
-
-    #[storage(read, write)]
-    fn push_storage_simple(value: SimpleStruct);
-
-    #[storage(read)]
-    fn get_storage_simple(index: u64) -> SimpleStruct;
-
-    #[storage(read, write)]
-    fn push_storage_location(value: Location);
-
-    #[storage(read)]
-    fn get_storage_location(index: u64) -> Location;
-
-    fn assert_configurables() -> bool;
-
-    fn get_configurable_bool() -> bool;
-}
-
-enum Location {
-    Earth: u64,
-    Mars: (),
-    SimpleJupiter: Color,
-    Jupiter: [Color; 2],
-    SimplePluto: SimpleStruct,
-    Pluto: [SimpleStruct; 2],
-}
-
-enum Color {
-    Red: (),
-    Blue: u64,
-}
-
-struct Person {
-    name: str,
-    age: u64,
-    alive: bool,
-    location: Location,
-    some_tuple: (bool, u64),
-    some_array: [u64; 2],
-    some_b256: b256,
-}
-
-struct SimpleStruct {
-    a: bool,
-    b: u64,
-}
+use large_contract_interface::*;
 
 storage {
     my_vec: StorageVec<u16> = StorageVec {},
@@ -125,7 +65,7 @@ impl core::ops::Eq for Location {
     }
 }
 
-impl MyContract for Contract {
+impl LargeContract for Contract {
     fn large_blob() -> bool {
         asm() {
             blob i91000;
