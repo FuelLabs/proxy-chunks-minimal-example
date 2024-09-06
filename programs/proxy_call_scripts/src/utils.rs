@@ -26,11 +26,11 @@ pub struct Args {
 }
 
 abigen!(Contract(
-    name = "SimpleTargetContract",
-    abi = "../simple_contract/out/release/simple_contract-abi.json"
+    name = "LargeTargetContract",
+    abi = "../large_contract/out/release/large_contract-abi.json"
 ));
 
-pub async fn setup_script() -> (SimpleTargetContract<WalletUnlocked>, Bech32ContractId) {
+pub async fn setup_script() -> (LargeTargetContract<WalletUnlocked>, Bech32ContractId) {
     let args = Args::parse();
 
     let provider = Provider::connect(&args.provider_url).await.unwrap();
@@ -41,7 +41,7 @@ pub async fn setup_script() -> (SimpleTargetContract<WalletUnlocked>, Bech32Cont
         .unwrap()
         .into();
 
-    let contract_instance = SimpleTargetContract::new(proxy_contract_id, signing_wallet);
+    let contract_instance = LargeTargetContract::new(proxy_contract_id, signing_wallet);
 
     let target_contract_id: Bech32ContractId = ContractId::from_str(&args.target_contract_id)
         .unwrap()
