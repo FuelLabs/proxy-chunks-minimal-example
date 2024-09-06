@@ -2,15 +2,35 @@ contract;
 
 use std::storage::storage_vec::*;
 use std::hash::*;
-use large_contract_interface::*;
 
-storage {
-    my_vec: StorageVec<u16> = StorageVec {},
-    my_simple_vec: StorageVec<SimpleStruct> = StorageVec {},
-    my_location_vec: StorageVec<Location> = StorageVec {},
+const VERSION: u8 = 1u8;
+
+pub enum PauseError {
+    /// Emitted when the contract is paused.
+    ContractPaused: (),
+    /// Emitted when the caller is not the `PAUSER_ROLE`.
+    NotPauser: (),
+}
+
+abi Pauseable {
+    #[storage(read)]
+    fn is_paused() -> bool;
+
+    #[storage(write)]
+    fn pause();
+
+    #[storage(write)]
+    fn unpause();
+}
+
+abi Versioned {
+    #[storage(read)]
+    fn get_version() -> u8;
 }
 
 configurable {
+    PAUSER_ROLE: Identity = Identity::Address(Address::from(0x0000000000000000000000000000000000000000000000000000000000000000)),
+    // the configurables below this point are only there to increase the contract size to > 100KB so that it will be chunked.
     BOOL: bool = true,
     U8: u8 = 1,
     U16: u16 = 2,
@@ -33,6 +53,112 @@ configurable {
     ],
     TUPLE_BOOL_U64: (bool, u64) = (true, 11),
     STR_4: str[4] = __to_str_array("abcd"),
+}
+
+storage {
+    is_paused: bool = false,
+    // the storage variables below this point are only there to increase the contract size to > 100KB so that it will be chunked.
+    my_vec: StorageVec<u16> = StorageVec {},
+    my_simple_vec: StorageVec<SimpleStruct> = StorageVec {},
+    my_location_vec: StorageVec<Location> = StorageVec {},
+}
+
+impl Pauseable for Contract {
+    #[storage(read)]
+    fn is_paused() -> bool {
+        _is_paused()
+    }
+
+    #[storage(write)]
+    fn pause() {
+        only_pauser_role();
+        storage.is_paused.write(true);
+    }
+
+    #[storage(write)]
+    fn unpause() {
+        only_pauser_role();
+        storage.is_paused.write(false);
+    }
+}
+
+#[storage(read)]
+fn _is_paused() -> bool {
+    storage.is_paused.try_read().unwrap_or(false)
+}
+
+fn only_pauser_role() {
+    require(PAUSER_ROLE == msg_sender().unwrap(), PauseError::NotPauser);
+}
+
+impl Versioned for Contract {
+    #[storage(read)]
+    fn get_version() -> u8 {
+        require(_is_paused() == false, PauseError::ContractPaused);
+
+        VERSION
+    }
+}
+
+// Everything below this point is only there to increase the contract size to > 100KB so that it will be chunked.
+
+pub enum Location {
+    pub Earth: u64,
+    pub Mars: (),
+    pub SimpleJupiter: Color,
+    pub Jupiter: [Color; 2],
+    pub SimplePluto: SimpleStruct,
+    pub Pluto: [SimpleStruct; 2],
+}
+
+pub enum Color {
+    pub Red: (),
+    pub Blue: u64,
+}
+
+pub struct Person {
+    pub name: str,
+    pub age: u64,
+    pub alive: bool,
+    pub location: Location,
+    pub some_tuple: (bool, u64),
+    pub some_array: [u64; 2],
+    pub some_b256: b256,
+}
+
+pub struct SimpleStruct {
+    pub a: bool,
+    pub b: u64,
+}
+
+abi LargeContract {
+    fn large_blob() -> bool;
+
+    fn enum_input_output(loc: Location) -> Location;
+
+    fn struct_input_output(person: Person) -> Person;
+
+    fn array_of_enum_input_output(aoe: [Location; 2]) -> [Location; 2];
+
+    #[storage(read, write)]
+    fn push_storage_u16(value: u16);
+
+    #[storage(read)]
+    fn get_storage_u16(index: u64) -> u16;
+
+    #[storage(read, write)]
+    fn push_storage_simple(value: SimpleStruct);
+
+    #[storage(read)]
+    fn get_storage_simple(index: u64) -> SimpleStruct;
+
+    #[storage(read, write)]
+    fn push_storage_location(value: Location);
+
+    #[storage(read)]
+    fn get_storage_location(index: u64) -> Location;
+
+    fn assert_configurables() -> bool;
 }
 
 impl core::ops::Eq for Color {
@@ -155,9 +281,5 @@ impl LargeContract for Contract {
         };
         assert(addr_1 == addr_2);
         true
-    }
-
-    fn get_configurable_bool() -> bool {
-        BOOL
     }
 }

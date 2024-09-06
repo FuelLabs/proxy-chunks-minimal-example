@@ -1,0 +1,27 @@
+[package]
+name = "proxy_call_scripts"
+version = "0.0.0"
+authors = ["Fuel Labs <contact@fuel.sh>"]
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+clap = { version = "4.5.17", features = ["env", "derive"] }
+fuels = { version = "0.66.4" }
+tokio = { version = "1.39.3", features = ["rt", "macros"] }
+
+[[bin]]
+name = "get_target_version"
+path = "src/get_target_version.rs"
+
+[[bin]]
+name = "pause_target"
+path = "src/pause_target.rs"
+
+[[bin]]
+name = "unpause_target"
+path = "src/unpause_target.rs"
+
+[lib]
+name = "utils"
+path = "src/utils.rs"
