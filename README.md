@@ -52,6 +52,11 @@ forc-wallet : 0.66.0
 
 ## Proxy
 
+> DO NOT ATTEMPT TO USE THE SRC-14 STANDARD OR UPGRADABILITY DIRECTLY YOURSELF TO AVOID COLLISION CATASTROPHES. THEY ARE FOR EDUCATIONAL PURPOSES ONLY. 
+
+> Please refer to [using the Proxy](#using-the-proxy) section to safely incoporate proxies into your project.
+
+
 #### [SRC-14 Simple Upgradeable Proxies](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 
 The SRC-14 standard is similar to upgradeable proxies in Ethereum like UUPS, where an implementation/target contract is stored in storage of the proxy contract and all calls are delegated to it. 
@@ -198,8 +203,7 @@ Compiling contract large_contract (/Users/calldelegation/Projects/Fuel/proxy-chu
 Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 ```
 
-## Putting It All Together (Chunking + Proxies)
-
+## Putting It All Together (Chunking + Proxies Demo) 
 #### Chunking 
 
 #### Chunking with Proxies
