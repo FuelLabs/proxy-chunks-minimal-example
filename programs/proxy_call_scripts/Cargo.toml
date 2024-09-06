@@ -1,5 +1,5 @@
 [package]
-name = "proxy_call_script"
+name = "proxy_call_scripts"
 version = "0.0.0"
 authors = ["Fuel Labs <contact@fuel.sh>"]
 edition = "2021"
@@ -11,5 +11,17 @@ fuels = { version = "0.66.3" }
 tokio = { version = "1.39.3", features = ["rt", "macros"] }
 
 [[bin]]
-name = "proxy_call"
-path = "src/proxy_call.rs"
+name = "get_target_version"
+path = "src/get_target_version.rs"
+
+[[bin]]
+name = "pause_target"
+path = "src/pause_target.rs"
+
+[[bin]]
+name = "unpause_target"
+path = "src/unpause_target.rs"
+
+[lib]
+name = "utils"
+path = "src/utils.rs"
