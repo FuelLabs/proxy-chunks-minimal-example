@@ -10,19 +10,19 @@ use fuels::{
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
-struct Args {
+pub struct Args {
     /// Provider URL
     #[arg(short, long, default_value = "127.0.0.1:4000")]
-    provider_url: String,
+    pub provider_url: String,
     /// Signing key
     #[arg(short, long, required = true, env = "SIGNING_KEY")]
-    signing_key: String,
+    pub signing_key: String,
     /// Proxy `ContractId`
     #[arg(long, required = true)]
-    proxy_contract_id: String,
+    pub proxy_contract_id: String,
     /// Target `ContractId`
     #[arg(long, required = true)]
-    target_contract_id: String,
+    pub target_contract_id: String,
 }
 
 abigen!(Contract(
@@ -30,13 +30,12 @@ abigen!(Contract(
     abi = "../simple_contract/out/release/simple_contract-abi.json"
 ));
 
-#[tokio::main]
-async fn main() {
-    println!("\n|||||||||||||||||||||||||||||||||||||||||||||||||\n-|- Calling Proxy Contract -|-\n|||||||||||||||||||||||||||||||||||||||||||||||||");
-
+pub async fn setup_script() -> (SimpleTargetContract<WalletUnlocked>, Bech32ContractId) {
     let args = Args::parse();
 
-    let signing_wallet = setup_signing_wallet(&args.provider_url, &args.signing_key).await;
+    let provider = Provider::connect(&args.provider_url).await.unwrap();
+    let secret = SecretKey::from_str(&args.signing_key).unwrap();
+    let signing_wallet = WalletUnlocked::new_from_private_key(secret, Some(provider));
 
     let proxy_contract_id: Bech32ContractId = ContractId::from_str(&args.proxy_contract_id)
         .unwrap()
@@ -48,19 +47,5 @@ async fn main() {
         .unwrap()
         .into();
 
-    let response = contract_instance
-        .methods()
-        .get_u8()
-        .with_contract_ids(&[target_contract_id])
-        .call()
-        .await
-        .unwrap();
-
-    println!("\t - Proxy response: {}", response.value);
-}
-
-async fn setup_signing_wallet(provider_url: &str, signing_key: &str) -> WalletUnlocked {
-    let provider = Provider::connect(provider_url).await.unwrap();
-    let secret = SecretKey::from_str(signing_key).unwrap();
-    WalletUnlocked::new_from_private_key(secret, Some(provider))
+    (contract_instance, target_contract_id)
 }
