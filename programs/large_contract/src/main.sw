@@ -3,8 +3,7 @@ contract;
 use std::storage::storage_vec::*;
 use std::hash::*;
 
-// This is changed during the upgrade.
-const BOOL: bool = true;
+const VERSION: u8 = 1u8;
 
 pub enum Location {
     pub Earth: u64,
@@ -64,7 +63,7 @@ abi LargeContract {
 
     fn assert_configurables() -> bool;
 
-    fn get_configurable_bool() -> bool;
+    fn get_version() -> u8;
 }
 
 storage {
@@ -74,6 +73,7 @@ storage {
 }
 
 configurable {
+    BOOL: bool = true,
     U8: u8 = 1,
     U16: u16 = 2,
     U32: u32 = 3,
@@ -219,7 +219,7 @@ impl LargeContract for Contract {
         true
     }
 
-    fn get_configurable_bool() -> bool {
-        BOOL
+    fn get_version() -> u8 {
+        VERSION
     }
 }
