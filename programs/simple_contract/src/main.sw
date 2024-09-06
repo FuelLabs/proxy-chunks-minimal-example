@@ -10,6 +10,9 @@ pub enum PauseError {
 }
 
 abi Pauseable {
+    #[storage(read)]
+    fn is_paused() -> bool;
+
     #[storage(write)]
     fn pause();
 
@@ -31,6 +34,11 @@ storage {
 }
 
 impl Pauseable for Contract {
+    #[storage(read)]
+    fn is_paused() -> bool {
+        _is_paused()
+    }
+
     #[storage(write)]
     fn pause() {
         only_pauser_role();
@@ -45,7 +53,7 @@ impl Pauseable for Contract {
 }
 
 #[storage(read)]
-fn is_paused() -> bool {
+fn _is_paused() -> bool {
     storage.is_paused.read()
 }
 
@@ -56,7 +64,7 @@ fn only_pauser_role() {
 impl SimpleContract for Contract {
     #[storage(read)]
     fn get_version() -> u8 {
-        require(is_paused() == false, PauseError::ContractPaused);
+        require(_is_paused() == false, PauseError::ContractPaused);
 
         VERSION
     }
