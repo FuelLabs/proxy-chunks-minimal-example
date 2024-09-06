@@ -54,7 +54,7 @@ impl Pauseable for Contract {
 
 #[storage(read)]
 fn _is_paused() -> bool {
-    storage.is_paused.read()
+    storage.is_paused.try_read().unwrap_or(false)
 }
 
 fn only_pauser_role() {
