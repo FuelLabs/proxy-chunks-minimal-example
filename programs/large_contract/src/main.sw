@@ -5,6 +5,102 @@ use std::hash::*;
 
 const VERSION: u8 = 1u8;
 
+pub enum PauseError {
+    /// Emitted when the contract is paused.
+    ContractPaused: (),
+    /// Emitted when the caller is not the `PAUSER_ROLE`.
+    NotPauser: (),
+}
+
+abi Pauseable {
+    #[storage(read)]
+    fn is_paused() -> bool;
+
+    #[storage(write)]
+    fn pause();
+
+    #[storage(write)]
+    fn unpause();
+}
+
+abi Versioned {
+    #[storage(read)]
+    fn get_version() -> u8;
+}
+
+configurable {
+    PAUSER_ROLE: Identity = Identity::Address(Address::from(0x0000000000000000000000000000000000000000000000000000000000000000)),
+    BOOL: bool = true,
+    U8: u8 = 1,
+    U16: u16 = 2,
+    U32: u32 = 3,
+    U64: u32 = 4,
+    U256: u256 = 0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu256,
+    B256: b256 = 0xBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
+    CONFIGURABLE_STRUCT: SimpleStruct = SimpleStruct { a: true, b: 5 },
+    CONFIGURABLE_ENUM: Location = Location::Earth(1),
+    ARRAY_BOOL: [bool; 3] = [true, false, true],
+    ARRAY_U64: [u64; 3] = [9, 8, 7],
+    ARRAY_LOCATION: [Location; 2] = [Location::Earth(10), Location::Mars],
+    ARRAY_SIMPLE_STRUCT: [SimpleStruct; 3] = [
+        SimpleStruct { a: true, b: 5 },
+        SimpleStruct { a: false, b: 0 },
+        SimpleStruct {
+            a: true,
+            b: u64::max(),
+        },
+    ],
+    TUPLE_BOOL_U64: (bool, u64) = (true, 11),
+    STR_4: str[4] = __to_str_array("abcd"),
+}
+
+storage {
+    is_paused: bool = false,
+    // the storage variables below this point are only there to increase the contract size to > 100KB so that it will be chunked.
+    my_vec: StorageVec<u16> = StorageVec {},
+    my_simple_vec: StorageVec<SimpleStruct> = StorageVec {},
+    my_location_vec: StorageVec<Location> = StorageVec {},
+}
+
+impl Pauseable for Contract {
+    #[storage(read)]
+    fn is_paused() -> bool {
+        _is_paused()
+    }
+
+    #[storage(write)]
+    fn pause() {
+        only_pauser_role();
+        storage.is_paused.write(true);
+    }
+
+    #[storage(write)]
+    fn unpause() {
+        only_pauser_role();
+        storage.is_paused.write(false);
+    }
+}
+
+#[storage(read)]
+fn _is_paused() -> bool {
+    storage.is_paused.try_read().unwrap_or(false)
+}
+
+fn only_pauser_role() {
+    require(PAUSER_ROLE == msg_sender().unwrap(), PauseError::NotPauser);
+}
+
+impl Versioned for Contract {
+    #[storage(read)]
+    fn get_version() -> u8 {
+        require(_is_paused() == false, PauseError::ContractPaused);
+
+        VERSION
+    }
+}
+
+// Everything below this point is only there to increase the contract size to > 100KB so that it will be chunked.
+
 pub enum Location {
     pub Earth: u64,
     pub Mars: (),
@@ -62,39 +158,6 @@ abi LargeContract {
     fn get_storage_location(index: u64) -> Location;
 
     fn assert_configurables() -> bool;
-
-    fn get_version() -> u8;
-}
-
-storage {
-    my_vec: StorageVec<u16> = StorageVec {},
-    my_simple_vec: StorageVec<SimpleStruct> = StorageVec {},
-    my_location_vec: StorageVec<Location> = StorageVec {},
-}
-
-configurable {
-    BOOL: bool = true,
-    U8: u8 = 1,
-    U16: u16 = 2,
-    U32: u32 = 3,
-    U64: u32 = 4,
-    U256: u256 = 0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAu256,
-    B256: b256 = 0xBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB,
-    CONFIGURABLE_STRUCT: SimpleStruct = SimpleStruct { a: true, b: 5 },
-    CONFIGURABLE_ENUM: Location = Location::Earth(1),
-    ARRAY_BOOL: [bool; 3] = [true, false, true],
-    ARRAY_U64: [u64; 3] = [9, 8, 7],
-    ARRAY_LOCATION: [Location; 2] = [Location::Earth(10), Location::Mars],
-    ARRAY_SIMPLE_STRUCT: [SimpleStruct; 3] = [
-        SimpleStruct { a: true, b: 5 },
-        SimpleStruct { a: false, b: 0 },
-        SimpleStruct {
-            a: true,
-            b: u64::max(),
-        },
-    ],
-    TUPLE_BOOL_U64: (bool, u64) = (true, 11),
-    STR_4: str[4] = __to_str_array("abcd"),
 }
 
 impl core::ops::Eq for Color {
@@ -217,9 +280,5 @@ impl LargeContract for Contract {
         };
         assert(addr_1 == addr_2);
         true
-    }
-
-    fn get_version() -> u8 {
-        VERSION
     }
 }
