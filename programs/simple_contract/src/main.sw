@@ -26,7 +26,7 @@ abi SimpleContract {
 }
 
 configurable {
-    PAUSER_ROLE: Identity = Identity::Address(Address::zero()),
+    PAUSER_ROLE: Identity = Identity::Address(Address::from(0x0000000000000000000000000000000000000000000000000000000000000000)),
 }
 
 storage {
