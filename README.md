@@ -208,6 +208,8 @@ Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 
 #### Chunking with Proxies
 
+#### Upgrading Proxies
+
 #### Pausing and Unpausing
 
 Testing scripts
