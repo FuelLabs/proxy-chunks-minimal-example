@@ -2,7 +2,7 @@
 
 Below is a summary of how to use proxies and chunking in Sway.
 
-**Proxies** refer to a blockchain design pattern that enables contract upgrades by forwarding calls made to the proxy contract to an implementation contract without changing the contract's address or state.
+**Proxies** refer to a blockchain design pattern that enables contract upgrades by forwarding calls made to the proxy contract to an implementation contract without changing the contract's address or state. On Fuel a proxy contract executes instructions from another contract while retaining it's own storage context.
 
 **Chunking** addresses the issue of deploying contracts that exceed Sway's 100KB contract size limit. It splits the oversized contract into multiple blobs and uses a loader contract. When the loader contract is called upon, it automatically loads the blobs into memory, allowing the contract to function as normal.
 
