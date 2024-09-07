@@ -309,7 +309,7 @@ Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 - **Incorrect change of ownership**:  
   Care should be taken when transferring ownership of the proxy. If ownership is transferred to the incorrect [State](https://github.com/FuelLabs/sway-standards/blob/ab52d73f5a53d9463cb644954a774a2c7c93684c/standards/src/src5.sw#L4), you may permanently lose ownership of the proxy contract.
 
-### Recommended Processes
+#### Recommended Processes
 
 - Deploy using `forc` with proxy functionality enabled.
 - Upgrade using `forc` while keeping the same proxy contract.
