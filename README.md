@@ -59,7 +59,7 @@ forc-wallet : 0.66.0
 
 #### [SRC-14 Simple Upgradeable Proxies](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 
-The SRC-14 standard is similar to upgradeable proxies in Ethereum like UUPS, where an implementation/target contract is stored in storage of the proxy contract and all calls are delegated to it. 
+The SRC-14 standard is similar to upgradeable proxies in Ethereum like [UUPS](https://eips.ethereum.org/EIPS/eip-1822), where an implementation/target contract is stored in storage of the proxy contract and all calls are delegated to it. Unlike in [UUPS](https://eips.ethereum.org/EIPS/eip-1822), this standard requires that the upgrade function is part of the proxy and not its target. This prevents irrecoverable updates if a proxy is made to point to another proxy and no longer has access to upgrade logic.
 
 In FuelVM, this behavior is implemented using the `LDC` instruction, which Sway's `std::execution::run_external` leverages to mimic EVM's `delegatecall`, allowing execution of instructions from another contract while retaining the original contract's storage context.
 
