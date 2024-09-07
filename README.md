@@ -176,10 +176,6 @@ impl OwnedProxy for Contract {
 }
 ```
 
-Here’s a revised version for grammar and clarity:
-
----
-
 The library assumes the `proxy_owner` will be stored at `sha256("storage_SRC14_1")`
 
 ```sway
