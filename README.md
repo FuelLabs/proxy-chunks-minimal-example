@@ -52,9 +52,7 @@ forc-wallet : 0.66.0
 
 ## Proxy
 
-> Note: Please refer to [using the Proxy](#using-the-proxy) section to safely incoporate proxies into your project.
- 
-We recommend implementing the SRC-14 standard via , as they are designed to help you avoid potential issues such as storage collisions and access control concerns. The SRC-14 standard itself, along with the examples in the sway-standards repository, are intended for educational purposes, and direct usage in production environments isn't advised for these reasons.
+> Note: Please refer to [using the Proxy](#using-the-proxy) section to safely incoporate proxies into your project. The SRC-14 standard itself is intentionally minimal and usage of just the standard alone (or the [example in the sway-standards](https://github.com/FuelLabs/sway-standards/tree/master/examples/src14-simple-proxy) which are for educational purposes) is not recommended in production environments due to potential access control and storage collision issues.
 
 #### [SRC-14 Simple Upgradeable Proxies](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 
@@ -120,62 +118,6 @@ impl SRC14Extension for Contract {
 }
 ```
 
-The [owned proxy implementation](https://github.com/FuelLabs/sway-standard-implementations/tree/master/src14/owned_proxy) extends the SRC-14 standard and includes initialization functionality to ensure secure ownership upon deployment. This contract is precompiled and utilized in the `forc` deploy proxy feature.
-
-```sway
-impl OwnedProxy for Contract {
-    /// Initializes the proxy contract.
-    ///
-    /// # Additional Information
-    ///
-    /// This method sets the storage values using the values of the configurable constants `INITIAL_TARGET` and `INITIAL_OWNER`.
-    /// This then allows methods that write to storage to be called.
-    /// This method can only be called once.
-    ///
-    /// # Reverts
-    ///
-    /// * When `storage.proxy_owner` is not [State::Uninitialized].
-    ///
-    /// # Number of Storage Accesses
-    ///
-    /// * Writes: `2`
-    #[storage(write)]
-    fn initialize_proxy() {
-        require(
-            _proxy_owner(storage.proxy_owner) == State::Uninitialized,
-            InitializationError::CannotReinitialized,
-        );
-
-        storage.target.write(INITIAL_TARGET);
-        storage.proxy_owner.write(INITIAL_OWNER);
-    }
-
-    /// Changes proxy ownership to the passed State.
-    ///
-    /// # Additional Information
-    ///
-    /// This method can be used to transfer ownership between Identities or to revoke ownership.
-    ///
-    /// # Arguments
-    ///
-    /// * `new_proxy_owner`: [State] - The new state of the proxy ownership.
-    ///
-    /// # Reverts
-    ///
-    /// * When the sender is not the current proxy owner.
-    /// * When the new state of the proxy ownership is [State::Uninitialized].
-    ///
-    /// # Number of Storage Accesses
-    ///
-    /// * Reads: `1`
-    /// * Writes: `1`
-    #[storage(write)]
-    fn set_proxy_owner(new_proxy_owner: State) {
-        _set_proxy_owner(new_proxy_owner, storage.proxy_owner);
-    }
-}
-```
-
 The library assumes the `proxy_owner` will be stored at `sha256("storage_SRC14_1")`
 
 ```sway
@@ -206,6 +148,10 @@ storage {
     },
 }
 ```
+
+#### Sway-standard-implementation's Owned Proxy
+
+The [Owned proxy implementation](https://github.com/FuelLabs/sway-standard-implementations/tree/K1-R1/updates/src14/owned_proxy) extends the SRC-14 standard and includes initialization functionality to ensure secure ownership upon deployment. This contract is precompiled and utilized in the `forc` deploy proxy feature.
 
 #### Using the Proxy
 
@@ -338,7 +284,7 @@ https://github.com/user-attachments/assets/705a8ad7-8096-4e47-ba5c-4f5e4d2ad5d3
 
 - [SRC-14 Simple Upgradeable Proxies Standard](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 - [Upgradable Library](https://docs.fuel.network/docs/sway-libs/upgradability/)
-- [Audited Simple SRC-14 implementation](https://github.com/FuelLabs/sway-standard-implementations/blob/master/src14/owned_proxy/contract/src/main.sw)
+- [Audited owned proxy SRC-14 implementation](https://github.com/FuelLabs/sway-standard-implementations/tree/K1-R1/updates/src14/owned_proxy)
 - [Using `Forc` (Prefered) to Deploy and Init, Deploy new Target ]()
 - [Using Scripts to Deploy and Init, Setting Proxy Target and Setting New Proxy Owner](https://github.com/FuelLabs/sway-standard-implementations/tree/master/src14/owned_proxy/scripts/src)
 #### Chunks
