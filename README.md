@@ -122,7 +122,94 @@ impl SRC14Extension for Contract {
 
 The [owned proxy implementation](https://github.com/FuelLabs/sway-standard-implementations/tree/master/src14/owned_proxy) extends the SRC-14 standard and includes initialization functionality to ensure secure ownership upon deployment. This contract is precompiled and utilized in the `forc` deploy proxy feature.
 
-https://github.com/FuelLabs/sway-standard-implementations/blob/master/src14/owned_proxy/contract/src/main.sw#L98-#L148
+```sway
+impl OwnedProxy for Contract {
+    /// Initializes the proxy contract.
+    ///
+    /// # Additional Information
+    ///
+    /// This method sets the storage values using the values of the configurable constants `INITIAL_TARGET` and `INITIAL_OWNER`.
+    /// This then allows methods that write to storage to be called.
+    /// This method can only be called once.
+    ///
+    /// # Reverts
+    ///
+    /// * When `storage.proxy_owner` is not [State::Uninitialized].
+    ///
+    /// # Number of Storage Accesses
+    ///
+    /// * Writes: `2`
+    #[storage(write)]
+    fn initialize_proxy() {
+        require(
+            _proxy_owner(storage.proxy_owner) == State::Uninitialized,
+            InitializationError::CannotReinitialized,
+        );
+
+        storage.target.write(INITIAL_TARGET);
+        storage.proxy_owner.write(INITIAL_OWNER);
+    }
+
+    /// Changes proxy ownership to the passed State.
+    ///
+    /// # Additional Information
+    ///
+    /// This method can be used to transfer ownership between Identities or to revoke ownership.
+    ///
+    /// # Arguments
+    ///
+    /// * `new_proxy_owner`: [State] - The new state of the proxy ownership.
+    ///
+    /// # Reverts
+    ///
+    /// * When the sender is not the current proxy owner.
+    /// * When the new state of the proxy ownership is [State::Uninitialized].
+    ///
+    /// # Number of Storage Accesses
+    ///
+    /// * Reads: `1`
+    /// * Writes: `1`
+    #[storage(write)]
+    fn set_proxy_owner(new_proxy_owner: State) {
+        _set_proxy_owner(new_proxy_owner, storage.proxy_owner);
+    }
+}
+```
+
+Here’s a revised version for grammar and clarity:
+
+---
+
+The library assumes the `proxy_owner` will be stored at `sha256("storage_SRC14_1")`
+
+```sway
+/// The storage slot to store the proxy owner's state.
+///
+/// The value is `sha256("storage_SRC14_1")`.
+pub const PROXY_OWNER_STORAGE: b256 = 0xbb79927b15d9259ea316f2ecb2297d6cc8851888a98278c0a2e03e1a091ea754;
+```
+
+Therefore, any proxy contract using this library and following the SRC-14 standard should set up the storage values for `target` and `proxy_owner` as follows:
+
+```sway
+storage {
+    SRC14 {
+        /// The [ContractId] of the target contract.
+        ///
+        /// # Additional Information
+        ///
+        /// The `target` is stored at `sha256("storage_SRC14_0")`.
+        target in 0x7bb458adc1d118713319a5baa00a2d049dd64d2916477d2688d76970c898cd55: Option<ContractId> = None,
+        
+        /// The [State] of the proxy owner.
+        ///
+        /// # Additional Information
+        ///
+        /// The `proxy_owner` is stored at `sha256("storage_SRC14_1")`.
+        proxy_owner in 0xbb79927b15d9259ea316f2ecb2297d6cc8851888a98278c0a2e03e1a091ea754: State = State::Uninitialized,
+    },
+}
+```
 
 #### Using the Proxy
 
