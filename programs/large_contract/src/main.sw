@@ -3,7 +3,7 @@ contract;
 use std::storage::storage_vec::*;
 use std::hash::*;
 
-const VERSION: u8 = 2u8;
+const VERSION: u8 = 1u8;
 
 pub enum PauseError {
     /// Emitted when the contract is paused.
@@ -29,7 +29,7 @@ abi Versioned {
 }
 
 configurable {
-    PAUSER_ROLE: Identity = Identity::Address(Address::from(0xb365fa96ea3ebc33aed490abeddb6e3aa56539b67c07523462276070c07330c6)),
+    PAUSER_ROLE: Identity = Identity::Address(Address::from(0x0000000000000000000000000000000000000000000000000000000000000000)),
     // the configurables below this point are only there to increase the contract size to > 100KB so that it will be chunked.
     BOOL: bool = true,
     U8: u8 = 1,
