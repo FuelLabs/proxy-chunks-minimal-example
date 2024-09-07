@@ -120,6 +120,10 @@ impl SRC14Extension for Contract {
 }
 ```
 
+The [owned proxy implementation](https://github.com/FuelLabs/sway-standard-implementations/tree/master/src14/owned_proxy) extends the SRC-14 standard and includes initialization functionality to ensure secure ownership upon deployment. This contract is precompiled and utilized in the `forc` deploy proxy feature.
+
+https://github.com/FuelLabs/sway-standard-implementations/blob/master/src14/owned_proxy/contract/src/main.sw#L98-#L148
+
 #### Using the Proxy
 
 Now that you understand the proxy standard and the library used to implement it, let's cover how to use the proxy. Unlike other blockchain ecosystems, Sway intentionally separates the proxy contract from the implementation, allowing developers to focus solely on building their contracts. There are two methods to deploy: the first is using a `forc` plugin, and the second is using deployment scripts.
