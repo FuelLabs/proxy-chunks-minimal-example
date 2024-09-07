@@ -289,6 +289,32 @@ Compiling contract large_contract (/Users/calldelegation/Projects/Fuel/proxy-chu
 Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 ```
 
+## Storage Considerations and Recommendations
+
+- The FuelVM provides an LDC instruction, which is used by Sway's `std::execution::run_external` to mimic the behavior of EVM’s `delegatecall`, allowing execution of instructions from another contract while retaining the original storage context. This is the intended means of implementing this standard.
+- The proxy contract MUST store the address of its target at storage slot `0x7bb458adc1d118713319a5baa00a2d049dd64d2916477d2688d76970c898cd55` (equivalent to `sha256("storage_SRC14_0")`). It SHOULD use other proxy-specific storage fields within the SRC14 namespace to avoid collisions with the target’s storage. It MAY overlap its storage definition with that of the target contract if necessary.
+- The target contract MUST NOT:
+  - Use the SRC14 namespace in its storage.
+  - Use the storage slot `0x7bb458adc1d118713319a5baa00a2d049dd64d2916477d2688d76970c898cd55` (equivalent to `sha256("storage_SRC14_0")`).
+  - Use the storage slot `0xbb79927b15d9259ea316f2ecb2297d6cc8851888a98278c0a2e03e1a091ea754` (equivalent to `sha256("storage_SRC14_1")`).
+
+#### Edge Cases
+
+- **Storage collisions**:  
+  If both the proxy contract and the target contract store a variable at the same slot, a storage collision will occur, where one value can overwrite the other. Care should be taken to follow the recommendations [above](./Storage considerations and recommendations).
+  
+- **Function selector collisions**:  
+  If the proxy contract and the target contract have separate methods with the same function selector, the contract owner may unintentionally call a privileged proxy method instead of the intended method on the implementation contract. Care should be taken to ensure that methods on the target contract do not share function selectors with methods on the proxy contract.
+
+- **Incorrect change of ownership**:  
+  Care should be taken when transferring ownership of the proxy. If ownership is transferred to the incorrect [State](https://github.com/FuelLabs/sway-standards/blob/ab52d73f5a53d9463cb644954a774a2c7c93684c/standards/src/src5.sw#L4), you may permanently lose ownership of the proxy contract.
+
+### Recommended Processes
+
+- Deploy using `forc` with proxy functionality enabled.
+- Upgrade using `forc` while keeping the same proxy contract.
+- To change proxy ownership, call the `set_proxy_owner()` method of the proxy contract. An example script for performing this task can be found in the [sway-standard-implementations repo](https://github.com/FuelLabs/sway-standard-implementations/blob/master/src14/owned_proxy/scripts/src/set_proxy_owner.rs).
+
 ## Putting It All Together (Chunking + Proxies Demo) 
 #### Chunking 
 
