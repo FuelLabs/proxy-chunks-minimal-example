@@ -1,8 +1,8 @@
-# How To Use Proxy & Chunks (Minimal Example)
+# How To Use Proxy contracts & large contract chunking (Minimal Example)
 
 Below is a summary of how to use proxies and chunking in Sway.
 
-**Proxies** refer to a blockchain design pattern that enables contract upgrades by forwarding calls made to the proxy contract to an implementation contract without changing the contract's address or state.
+**Proxies** refer to a blockchain design pattern that enables contract upgrades by forwarding calls made to the proxy contract to an implementation contract without changing the contract's address or state. On Fuel a proxy contract executes instructions from another contract while retaining it's own storage context.
 
 **Chunking** addresses the issue of deploying contracts that exceed Sway's 100KB contract size limit. It splits the oversized contract into multiple blobs and uses a loader contract. When the loader contract is called upon, it automatically loads the blobs into memory, allowing the contract to function as normal.
 
@@ -59,7 +59,7 @@ forc-wallet : 0.66.0
 
 #### [SRC-14 Simple Upgradeable Proxies](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 
-The SRC-14 standard is similar to upgradeable proxies in Ethereum like UUPS, where an implementation/target contract is stored in storage of the proxy contract and all calls are delegated to it. 
+The SRC-14 standard is similar to upgradeable proxies in Ethereum like [UUPS](https://eips.ethereum.org/EIPS/eip-1822), where an implementation/target contract is stored in storage of the proxy contract and all calls are delegated to it. Unlike in [UUPS](https://eips.ethereum.org/EIPS/eip-1822), this standard requires that the upgrade function is part of the proxy and not its target. This prevents irrecoverable updates if a proxy is made to point to another proxy and no longer has access to upgrade logic.
 
 In FuelVM, this behavior is implemented using the `LDC` instruction, which Sway's `std::execution::run_external` leverages to mimic EVM's `delegatecall`, allowing execution of instructions from another contract while retaining the original contract's storage context.
 
