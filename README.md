@@ -18,7 +18,7 @@ fuelup update
 fuelup default latest
 ```
 
-At the time of writing you should be on `v0.63.3` or above
+At the time of writing you should be on `v0.63.5` or above
 
 ```sh
 fuelup show
