@@ -52,10 +52,9 @@ forc-wallet : 0.66.0
 
 ## Proxy
 
-> DO NOT ATTEMPT TO USE THE SRC-14 STANDARD OR UPGRADABILITY DIRECTLY YOURSELF TO AVOID COLLISION CATASTROPHES. THEY ARE FOR EDUCATIONAL PURPOSES ONLY. 
-
-> Please refer to [using the Proxy](#using-the-proxy) section to safely incoporate proxies into your project.
-
+> Note: Please refer to [using the Proxy](#using-the-proxy) section to safely incoporate proxies into your project.
+ 
+We recommend implementing the SRC-14 standard via , as they are designed to help you avoid potential issues such as storage collisions and access control concerns. The SRC-14 standard itself, along with the examples in the sway-standards repository, are intended for educational purposes, and direct usage in production environments isn't advised for these reasons.
 
 #### [SRC-14 Simple Upgradeable Proxies](https://docs.fuel.network/docs/sway-standards/src-14-simple-upgradeable-proxies/)
 
