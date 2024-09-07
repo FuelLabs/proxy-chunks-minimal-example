@@ -6,3 +6,4 @@ name = "large_contract"
 
 [proxy]
 enabled = true
+address = "0x4f8300559cd511ddc411e8180036f0b56fb348b76ed49b0948917faaee167cb7"

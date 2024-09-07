@@ -18,7 +18,7 @@ fuelup update
 fuelup default latest
 ```
 
-At the time of writing you should be on `v0.63.3` or above
+At the time of writing you should be on `v0.63.5` or above
 
 ```sh
 fuelup show
@@ -30,16 +30,16 @@ The command above should yield a similar output below
 active toolchain
 ----------------
 latest-aarch64-apple-darwin (default)
-  forc : 0.63.3
+  forc : 0.63.5
     - forc-client
-      - forc-deploy : 0.63.3
-      - forc-run : 0.63.3
-    - forc-crypto : 0.63.3
-    - forc-debug : 0.63.3
-    - forc-doc : 0.63.3
-    - forc-fmt : 0.63.3
-    - forc-lsp : 0.63.3
-    - forc-tx : 0.63.3
+      - forc-deploy : 0.63.5
+      - forc-run : 0.63.5
+    - forc-crypto : 0.63.5
+    - forc-debug : 0.63.5
+    - forc-doc : 0.63.5
+    - forc-fmt : 0.63.5
+    - forc-lsp : 0.63.5
+    - forc-tx : 0.63.5
     - forc-wallet : 0.9.0
   fuel-core : 0.34.0
   fuel-core-keygen : 0.34.0
@@ -208,7 +208,9 @@ Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 
 #### Chunking with Proxies
 
-####
+#### Pausing and Unpausing
+
+Testing scripts
 
 ## Appendix
 
