@@ -1,4 +1,4 @@
-# How To Use Proxy & Chunks (Minimal Example)
+# How To Use Proxy contracts & large contract chunking (Minimal Example)
 
 Below is a summary of how to use proxies and chunking in Sway.
 
