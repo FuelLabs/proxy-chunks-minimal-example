@@ -206,13 +206,19 @@ Finished debug [unoptimized + fuel] target(s) [400.04 KB] in 1.83s
 ## Putting It All Together (Chunking + Proxies Demo) 
 #### Chunking 
 
+https://github.com/user-attachments/assets/158ddc9b-5248-4783-a84a-594404c41e22
+
 #### Chunking with Proxies
+
+https://github.com/user-attachments/assets/cddef4d3-3861-44d1-ad04-6cdaf106d9b9
 
 #### Upgrading Proxies
 
+https://github.com/user-attachments/assets/b1143ebb-9d7f-415d-937e-b144d438c3ef
+
 #### Pausing and Unpausing
 
-Testing scripts
+https://github.com/user-attachments/assets/705a8ad7-8096-4e47-ba5c-4f5e4d2ad5d3
 
 ## Appendix
 
